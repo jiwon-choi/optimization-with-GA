@@ -52,6 +52,8 @@ def mutate(selected_chromosome, mutateSize):
 
 
 
+
+
 def mutateGene(gene):
     mutated_gene = gene
     rand = random.randint(2, 3)
