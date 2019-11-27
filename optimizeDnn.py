@@ -18,6 +18,7 @@ hidden layer= 1~10
 fitness= accurate
 """
 
+
 def dnn(gene):
     fm.fileMaker(gene)
 
