@@ -8,6 +8,7 @@ import subprocess
 # import pandas as pd
 
 
+
 """
 chromosome[lr, init weight, optimizer, actFunc, layer, fitness]
 lr = 0~1.0
