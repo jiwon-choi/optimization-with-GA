@@ -8,7 +8,6 @@ import subprocess
 # import pandas as pd
 
 
-
 """
 chromosome[lr, init weight, optimizer, actFunc, layer, fitness]
 lr = 0~1.0
@@ -18,6 +17,7 @@ activation=   0:sigmoid  1:relu
 hidden layer= 1~10
 fitness= accurate
 """
+
 
 def dnn(gene):
 
@@ -32,6 +32,7 @@ def dnn(gene):
     return fitness
     """
 
+
 def getFitness(gene, popSize):
     for i in range(0, popSize):
         fitness = i
@@ -43,6 +44,7 @@ def getFitness(gene, popSize):
         gene[i][5] = fitness
     return gene
     '''
+
 
 def select(sorted_chromosome, selectSize):
     selected_chromosome = []
@@ -62,13 +64,13 @@ def mutateGene(gene):
     mutated_gene = gene
     rand = random.randint(2, 3)
     choiceInd = random.sample([0, 1, 2, 3, 4], rand)
-    print("\n\n\n###################choiceInd=",choiceInd)
+    print("\n\n\n###################choiceInd=", choiceInd)
     for i in range(0, len(choiceInd)):
         if choiceInd[i] == 0:
             # mutate lr
             print("\n\n##############mutation activate! lr=", gene[0])
             trans = random.randint(-20, 20)/100.0
-            print("trans=",trans)
+            print("trans=", trans)
             mutated_gene[0] = gene[0] + trans
         elif choiceInd[i] == 1:
             # mutate init weight
@@ -114,7 +116,7 @@ for i in range(0, popSize):
     init_w = random.choice(["zeros", "xavier", "he", "random"])
     opt = random.choice(["SGD", "Adagrad", "Adam"])
     actF = random.choice(["sigmoid", "relu", "tanh"])
-    layer = random.randint(2,4)
+    layer = random.randint(2, 4)
     fitness = 0
     nextGeneration.append([lr, init_w, opt, actF, layer, fitness])
 
@@ -136,12 +138,12 @@ for i in range(0, generation):
     # nextGeneration = sorted(nextGeneration, key=operator.itemgetter(5), reverse=True)
     # print("nextGeneration:", nextGeneration)
     progress.append(nextGeneration[0][5])
-    print("\n\n\n>>>>>Gen = ",i,"Max Accuracy:",nextGeneration[0],"\n\n\n")
+    print("\n\n\n>>>>>Gen = ", i, "Max Accuracy:", nextGeneration[0], "\n\n\n")
 
 
 # print("last Chromosome:", nextGeneration[0])
 for i in range(popSize):
-    print(i,"=",nextGeneration[i])
+    print(i, "=", nextGeneration[i])
 plt.plot(progress)
 plt.ylabel('Fitness')
 plt.xlabel('Generation')
