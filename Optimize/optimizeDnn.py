@@ -55,13 +55,10 @@ def mutateGene(gene):
     mutated_gene = gene
     rand = random.randint(2, 3)
     choiceInd = random.sample([0, 1, 2, 3, 4], rand)
-    print("\n\n\n###################choiceInd=", choiceInd)
     for i in range(0, len(choiceInd)):
         if choiceInd[i] == 0:
             # mutate lr
-            print("\n\n##############mutation activate! lr=", gene[0])
             trans = random.randint(-20, 20)/100.0
-            print("trans=", trans)
             mutated_gene[0] = gene[0] + trans
         elif choiceInd[i] == 1:
             # mutate init weight
