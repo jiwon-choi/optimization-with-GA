@@ -21,7 +21,7 @@ fitness= accurate
 def dnn(gene):
     fm.fileMaker(gene)
 
-    accuracy = subprocess.check_output("python3 created_cnn.py", shell=True)
+    accuracy = subprocess.check_output("python3 createdCNN.py", shell=True)
     accuracy = str(accuracy)
     accuracy = accuracy[accuracy.find("Accuracy")+10:accuracy.find("genetic")]
 
