@@ -1,0 +1,6 @@
+0 = [-0.11, 'xavier', 'Adam', 'tanh', 5, 0.982]
+1 = [-0.11, 'xavier', 'Adam', 'tanh', 5, 0.9812]
+2 = [-0.11, 'xavier', 'SGD', 'tanh', 4, 0.982]
+3 = [-0.25, 'random', 'Adam', 'relu', 5, 0.9812]
+4 = [-0.25, 'random', 'Adam', 'tanh', 5, 0.982]
+5 = [-0.11, 'xavier', 'Adam', 'tanh', 5, 0.9812]

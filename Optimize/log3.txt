@@ -1,0 +1,14 @@
+--First Generation--
+0 = [0.22, 'random', 'SGD', 'tanh', 2, 0.9817]
+1 = [0.97, 'he', 'Adagrad', 'tanh', 2, 0.9817]
+2 = [0.22, 'random', 'SGD', 'tanh', 2, 0.9817]
+3 = [0.97, 'zeros', 'Adagrad', 'tanh', 2, 0.9817]
+4 = [0.22, 'random', 'SGD', 'tanh', 2, 0.9817]
+5 = [0.22, 'random', 'SGD', 'tanh', 2, 0.9817]
+--Last Generation--
+0 = [0.16, 'random', 'Adagrad', 'sigmoid', 2, 0.9824]
+1 = [0.11, 'random', 'Adagrad', 'sigmoid', 3, 0.9817]
+2 = [0.16, 'random', 'Adagrad', 'relu', 3, 0.9824]
+3 = [0.11, 'random', 'SGD', 'sigmoid', 4, 0.9817]
+4 = [0.16, 'random', 'SGD', 'sigmoid', 4, 0.9817]
+5 = [0.16, 'random', 'Adagrad', 'sigmoid', 2, 0.9817]

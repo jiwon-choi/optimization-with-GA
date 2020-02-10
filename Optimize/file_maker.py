@@ -9,7 +9,7 @@ def fileMaker(gene):
     layer = gene[4]
     # fitness = gene[5]
 
-    f = open("text.py", 'w')
+    f = open("created_dnn.py", 'w')
 
     f.write("\n")
     f.write("import sys\n")
