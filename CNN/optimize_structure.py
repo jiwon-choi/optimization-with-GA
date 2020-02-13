@@ -1,12 +1,19 @@
 import subprocess
 
+
 def fileMaker(gene):
     lr = gene[0]
     initW = gene[1]
     optim = gene[2]
     actF = gene[3]
+    kernel_size = gene[4]
+    conv_layer = gene[5]
+    fcn_layer = gene[6]
+
+    '''
     conv_layer = 3
     fcn_layer = 3
+    '''
     f = open("created_cnn.py", 'w')
 
     # Import Part
@@ -24,8 +31,10 @@ def fileMaker(gene):
 
     # Gene
 
+    f.write("kernel_init ='"+str(initW)+"'\n")
     f.write("lr = " + str(lr) + "\n")
-    f.write("actF = " + str(actF) + "\n")
+    f.write("actF = '" + str(actF) + "'\n")
+    f.write("ks =" + str(kernel_size) + "\n")
     if optim == 'Adam':
         f.write("opt = keras.optimizers.Adam(learning_rate =lr, beta_1=0.9, beta_2=0.999, amsgrad=False)\n")
     elif optim == 'Adagrad':
@@ -57,14 +66,14 @@ def fileMaker(gene):
 
     # Structure Part
     f.write("model = Sequential()\n")
-    f.write("model.add(Conv2D(32,kernel_size=(ks, ks), padding='same', activation = 'relu',input_shape=input_shape))\n")
+    f.write("model.add(Conv2D(32,kernel_size=(ks, ks), kernel_initializer = kernel_init, padding='same', activation = 'relu',input_shape=input_shape))\n")
     f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))\n")
     for i in range(0, conv_layer-1):
-        f.write("model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))\n")
+        f.write("model.add(Conv2D(64, (2, 2), activation='relu', padding='same', kernel_initializer = kernel_init))\n")
         f.write("model.add(MaxPooling2D(pool_size=(2, 2)))\n")
     f.write("model.add(Dropout(0.25))\n")
     f.write("model.add(Flatten())\n")
-    for i in range(0, fcn_layer-2):
+    for i in range(0, fcn_layer-1):
         f.write("model.add(Dense(1000, activation='relu'))\n")
         f.write("Dropout(0.5)\n")
     f.write("model.add(Dense(num_classes, activation='softmax'))\n")
@@ -72,7 +81,7 @@ def fileMaker(gene):
 
     '''
     f.write("model = Sequential()\n")
-    f.write("model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1), padding='same',activation= 'relu',input_shape=input_shape))\n")
+    f.write("model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1), padding='same',activation='relu', input_shape=input_shape))\n")
     f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))\n")
     f.write("model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))\n")
     f.write("model.add(MaxPooling2D(pool_size=(2, 2)))\n")
@@ -90,3 +99,7 @@ def fileMaker(gene):
     f.write("print(\"Accuracy=\", score[1], \"genetic\")")
 
     f.close()
+
+
+gene = [0.001, 'he_uniform', 'Adam', 'relu', 3, 3, 3]
+fileMaker(gene)
