@@ -13,8 +13,12 @@ def fileMaker(gene):
     '''
     conv_layer = 3
     fcn_layer = 3
+<<<<<<< HEAD
     '''
     f = open("created_cnn.py", 'w')
+=======
+    f = open("createdCNN.py", 'w')
+>>>>>>> a70c01447ad632b325d3a09ed1e0e823f38ad29b
 
     # Import Part
 
@@ -33,16 +37,20 @@ def fileMaker(gene):
 
     f.write("kernel_init ='"+str(initW)+"'\n")
     f.write("lr = " + str(lr) + "\n")
+<<<<<<< HEAD
     f.write("actF = '" + str(actF) + "'\n")
     f.write("ks =" + str(kernel_size) + "\n")
+=======
+>>>>>>> a70c01447ad632b325d3a09ed1e0e823f38ad29b
     if optim == 'Adam':
-        f.write("opt = keras.optimizers.Adam(learning_rate =lr, beta_1=0.9, beta_2=0.999, amsgrad=False)\n")
+        f.write("opt = optimizers.Adam(learning_rate =lr, beta_1=0.9, beta_2=0.999, amsgrad=False)\n")
     elif optim == 'Adagrad':
-        f.write("opt = keras.optimizers.Adagrad(learning_rate=lr)\n")
+        f.write("opt = optimizers.Adagrad(learning_rate=lr)\n")
     elif optim == 'SGD':
-        f.write("opt = keras.optimizers.SGD(learning_rate=lr, momentum=0.0, nesterov=False)\n")
+        f.write("opt = optimizers.SGD(learning_rate=lr, momentum=0.0, nesterov=False)\n")
     elif optim == 'Adadelta':
-        f.write("opt = keras.optimizers.Adadelta(learning_rate=lr, rho=0.95)\n")
+        f.write("opt = optimizers.Adadelta(learning_rate=lr, rho=0.95)\n")
+    f.write("actF = " + str(actF) + "\n")
 
     #
 
@@ -65,6 +73,7 @@ def fileMaker(gene):
     f.write("y_test = keras.utils.to_categorical(y_test, num_classes)\n")
 
     # Structure Part
+
     f.write("model = Sequential()\n")
     f.write("model.add(Conv2D(32,kernel_size=(ks, ks), kernel_initializer = kernel_init, padding='same', activation = 'relu',input_shape=input_shape))\n")
     f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))\n")
@@ -92,6 +101,7 @@ def fileMaker(gene):
     f.write("model.add(Dense(num_classes, activation='softmax'))\n")
     f.write("model.summary()\n\n")
     '''
+
     f.write("model.compile(loss='categorical_crossentropy', optimizer = opt, metrics=['accuracy'])\n")
     f.write("hist = model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(x_test, y_test))\n")
 
