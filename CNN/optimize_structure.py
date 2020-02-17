@@ -10,10 +10,6 @@ def fileMaker(gene):
     conv_layer = gene[5]
     fcn_layer = gene[6]
 
-    '''
-    conv_layer = 3
-    fcn_layer = 3
-    '''
     f = open("created_cnn.py", 'w')
 
     # Import Part
@@ -66,32 +62,19 @@ def fileMaker(gene):
 
     # Structure Part
     f.write("model = Sequential()\n")
-    f.write("model.add(Conv2D(32,kernel_size=(ks, ks), kernel_initializer = kernel_init, padding='same', activation = 'relu',input_shape=input_shape))\n")
+    f.write("model.add(Conv2D(32,kernel_size=(ks, ks), kernel_initializer = kernel_init, padding='same', activation = actF,input_shape=input_shape))\n")
     f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))\n")
-    for i in range(0, conv_layer-1):
-        f.write("model.add(Conv2D(64, (2, 2), activation='relu', padding='same', kernel_initializer = kernel_init))\n")
+    for i in range(0, int(conv_layer-1)):
+        f.write("model.add(Conv2D(64, (2, 2), activation=actF, padding='same', kernel_initializer = kernel_init))\n")
         f.write("model.add(MaxPooling2D(pool_size=(2, 2)))\n")
     f.write("model.add(Dropout(0.25))\n")
     f.write("model.add(Flatten())\n")
     for i in range(0, fcn_layer-1):
-        f.write("model.add(Dense(1000, activation='relu'))\n")
+        f.write("model.add(Dense(1000, activation=actF))\n")
         f.write("Dropout(0.5)\n")
     f.write("model.add(Dense(num_classes, activation='softmax'))\n")
     f.write("model.summary()\n\n")
 
-    '''
-    f.write("model = Sequential()\n")
-    f.write("model.add(Conv2D(32, kernel_size=(5, 5), strides=(1, 1), padding='same',activation='relu', input_shape=input_shape))\n")
-    f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))\n")
-    f.write("model.add(Conv2D(64, (2, 2), activation='relu', padding='same'))\n")
-    f.write("model.add(MaxPooling2D(pool_size=(2, 2)))\n")
-    f.write("model.add(Dropout(0.25))\n")
-    f.write("model.add(Flatten())\n")
-    f.write("model.add(Dense(1000, activation='relu'))\n")
-    f.write("model.add(Dropout(0.5))\n")
-    f.write("model.add(Dense(num_classes, activation='softmax'))\n")
-    f.write("model.summary()\n\n")
-    '''
     f.write("model.compile(loss='categorical_crossentropy', optimizer = opt, metrics=['accuracy'])\n")
     f.write("hist = model.fit(x_train, y_train, batch_size=batch_size, epochs=epochs, verbose=1, validation_data=(x_test, y_test))\n")
 
@@ -99,7 +82,3 @@ def fileMaker(gene):
     f.write("print(\"Accuracy=\", score[1], \"genetic\")")
 
     f.close()
-
-
-gene = [0.001, 'he_uniform', 'Adam', 'relu', 3, 3, 3]
-fileMaker(gene)

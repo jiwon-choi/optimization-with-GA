@@ -6,7 +6,7 @@ def fileMaker(gene):
     optim = gene[2]
     actF = gene[3]
 
-    f = open("createdCNN.py", 'w')
+    f = open("created_cnn.py", 'w')
 
     # Import Part
 
@@ -24,17 +24,17 @@ def fileMaker(gene):
     # Gene
 
     f.write("lr = " + str(lr) + "\n")
-    if optim == 'Adam':
-        f.write("opt = optimizers.Adam(learning_rate =lr, beta_1=0.9, beta_2=0.999, amsgrad=False)\n")
-    elif optim == 'Adagrad':
-        f.write("opt = optimizers.Adagrad(learning_rate=lr)\n")
-    elif optim == 'SGD':
-        f.write("opt = optimizers.SGD(learning_rate=lr, momentum=0.0, nesterov=False)\n")
-    elif optim == 'Adadelta':
-        f.write("opt = optimizers.Adadelta(learning_rate=lr, rho=0.95)\n")
     f.write("actF = " + str(actF) + "\n")
+    if optim == 'Adam':
+        f.write("opt = keras.optimizers.Adam(learning_rate =lr, beta_1=0.9, beta_2=0.999, amsgrad=False)\n")
+    elif optim == 'Adagrad':
+        f.write("opt = keras.optimizers.Adagrad(learning_rate=lr)\n")
+    elif optim == 'SGD':
+        f.write("opt = keras.optimizers.SGD(learning_rate=lr, momentum=0.0, nesterov=False)\n")
+    elif optim == 'Adadelta':
+        f.write("opt = keras.optimizers.Adadelta(learning_rate=lr, rho=0.95)\n")
 
-    # 
+    #
 
     f.write("img_rows = 28\n")
     f.write("img_cols = 28\n\n")
@@ -49,7 +49,7 @@ def fileMaker(gene):
 
     f.write("batch_size = 128\n")
     f.write("num_classes = 10\n")
-    f.write("epochs = 2\n\n")
+    f.write("epochs = 10\n\n")
 
     f.write("y_train = keras.utils.to_categorical(y_train, num_classes)\n")
     f.write("y_test = keras.utils.to_categorical(y_test, num_classes)\n")
