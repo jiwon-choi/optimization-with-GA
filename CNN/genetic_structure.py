@@ -4,6 +4,7 @@ import operator
 import copy
 import optimize_structure as fm
 import subprocess
+import time
 # import pandas as pd
 
 
@@ -108,7 +109,7 @@ def breed(selected_chromosome, popSize, breedSize):
 
 
 # Init first generation
-generation = 2
+generation = 3
 popSize = 10
 mutateSize = 3
 selectSize = 3
@@ -119,14 +120,20 @@ for i in range(0, popSize):
     init_w = random.choice(["zeros", "he_uniform", "random_uniform"])
     opt = random.choice(["SGD", "Adagrad", "Adam", "Adadelta"])
     actF = random.choice(["sigmoid", "relu", "tanh"])
-    kernel_size = random.choice([1, 3, 5, 7])
+    kernel_size = random.choice([1, 3, 5])
     conv_layer = random.choice([1, 2, 3])
     fcn_layer = random.choice([1, 2, 3])
     fitness = 0
     nextGeneration.append([lr, init_w, opt, actF, kernel_size, conv_layer, fcn_layer, fitness])
 
+now = time.localtime()
+strnow = "log_"+str(now.tm_year)+"-"+str(now.tm_mon)+"-"+str(now.tm_mday)+"_"+str(now.tm_hour)+"-"+str(now.tm_min)+"-"+str(now.tm_sec)
+log = open(strnow+".txt", 'a')
+log.write("\n\n[first]\n")
 for i in range(popSize):
     print("first =", nextGeneration[i])
+    log.write(str(nextGeneration[i])+"\n")
+
 progress = []
 # print(chromosome)
 for i in range(0, generation):
@@ -135,30 +142,34 @@ for i in range(0, generation):
         getFitness(nextGeneration, popSize, selectSize)
     else:
         getFitness(nextGeneration, popSize, 0)
-    sorted_chromosome = sorted(nextGeneration, key=operator.itemgetter(5), reverse=True)
+    sorted_chromosome = copy.deepcopy(sorted(nextGeneration, key=operator.itemgetter(5), reverse=True))
+    progress.append(copy.deepcopy(nextGeneration[0][7]))
+    log.write("\naccuracy = "+str(nextGeneration[0][7])+"\n")
     '''
     for i in range(popSize):
         print(i, "=", sorted_chromosome[i])
     '''
-    selected_chromosome = select(sorted_chromosome, selectSize)
+    selected_chromosome = copy.deepcopy(select(sorted_chromosome, selectSize))
     # print("after select:", selected_chromosome)
     selected = copy.deepcopy(selected_chromosome)
-    mutated_chromosome = mutate(selected_chromosome, mutateSize)
+    mutated_chromosome = copy.deepcopy(mutate(selected_chromosome, mutateSize))
     # print("mutated_chromosome:", mutated_chromosome)
-    nextGeneration = selected + copy.deepcopy(mutated_chromosome)
+    nextGeneration = copy.deepcopy(selected) + copy.deepcopy(mutated_chromosome)
     # print("selected + mutate:", nextGeneration)
-    nextGeneration = breed(nextGeneration, popSize, breedSize)
+    nextGeneration = copy.deepcopy(breed(nextGeneration, popSize, breedSize))
     # nextGeneration = sorted(nextGeneration, key=operator.itemgetter(5), reverse=True)
     # print("nextGeneration:", nextGeneration)
-    progress.append(nextGeneration[0][5])
 
     # print("\n\n\n>>>>>Gen = ", i, "Max Accuracy:", nextGeneration[0], "\n\n\n")
 
 
 # print("last Chromosome:", nextGeneration[0])
+log.write("\n\n[last]\n")
 print("OOOOOO Last Generation OOOOOO")
 for i in range(popSize):
     print(i, "=", nextGeneration[i])
+    log.write(str(nextGeneration[i])+"\n")
+log.close()
 print(" progress =", progress)
 # plt.plot(progress)
 # plt.ylabel('Fitness')
