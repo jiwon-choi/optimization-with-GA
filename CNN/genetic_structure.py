@@ -108,7 +108,7 @@ def breed(selected_chromosome, popSize, breedSize):
 
 
 # Init first generation
-generation = 2
+generation = 20
 popSize = 10
 mutateSize = 3
 selectSize = 3
@@ -119,7 +119,7 @@ for i in range(0, popSize):
     init_w = random.choice(["zeros", "he_uniform", "random_uniform"])
     opt = random.choice(["SGD", "Adagrad", "Adam", "Adadelta"])
     actF = random.choice(["sigmoid", "relu", "tanh"])
-    kernel_size = random.choice([1, 3, 5, 7])
+    kernel_size = random.choice([1, 3, 5])
     conv_layer = random.choice([1, 2, 3])
     fcn_layer = random.choice([1, 2, 3])
     fitness = 0
@@ -135,22 +135,22 @@ for i in range(0, generation):
         getFitness(nextGeneration, popSize, selectSize)
     else:
         getFitness(nextGeneration, popSize, 0)
-    sorted_chromosome = sorted(nextGeneration, key=operator.itemgetter(5), reverse=True)
+    sorted_chromosome = copy.deepcopy(sorted(nextGeneration, key=operator.itemgetter(5), reverse=True))
     '''
     for i in range(popSize):
         print(i, "=", sorted_chromosome[i])
     '''
-    selected_chromosome = select(sorted_chromosome, selectSize)
+    progress.append(copy.deepcopy(nextGeneration[0][7]))
+    selected_chromosome = copy.deepcopy(select(sorted_chromosome, selectSize))
     # print("after select:", selected_chromosome)
     selected = copy.deepcopy(selected_chromosome)
-    mutated_chromosome = mutate(selected_chromosome, mutateSize)
+    mutated_chromosome = copy.deepcopy(mutate(selected_chromosome, mutateSize))
     # print("mutated_chromosome:", mutated_chromosome)
-    nextGeneration = selected + copy.deepcopy(mutated_chromosome)
+    nextGeneration = copy.deepcopy(selected) + copy.deepcopy(mutated_chromosome)
     # print("selected + mutate:", nextGeneration)
-    nextGeneration = breed(nextGeneration, popSize, breedSize)
+    nextGeneration = copy.deepcopy(breed(nextGeneration, popSize, breedSize))
     # nextGeneration = sorted(nextGeneration, key=operator.itemgetter(5), reverse=True)
     # print("nextGeneration:", nextGeneration)
-    progress.append(nextGeneration[0][5])
 
     # print("\n\n\n>>>>>Gen = ", i, "Max Accuracy:", nextGeneration[0], "\n\n\n")
 
