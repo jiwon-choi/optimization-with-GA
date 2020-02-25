@@ -120,7 +120,7 @@ for i in range(0, generation):
         getFitness(nextGeneration, popSize, selectSize)
     else:
         getFitness(nextGeneration, popSize, 0)
-    sorted_chromosome = sorted(nextGeneration, key=operator.itemgetter(5), reverse=True)
+        sorted_chromosome = sorted(nextGeneration, key=operator.itemgetter(5), reverse=True)
     '''
     for i in range(popSize):
         print(i, "=", sorted_chromosome[i])

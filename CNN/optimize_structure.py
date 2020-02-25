@@ -63,17 +63,10 @@ def fileMaker(gene):
     # Structure Part
     f.write("model = Sequential()\n")
     f.write("model.add(Conv2D(32,kernel_size=(ks, ks), kernel_initializer = kernel_init, padding='same', activation = actF,input_shape=input_shape))\n")
-<<<<<<< HEAD
-    f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), dim_ordering='th'))\n")
-    for i in range(0, int(conv_layer-1)):
-        f.write("model.add(Conv2D(64, (2, 2), activation=actF, padding='same', kernel_initializer = kernel_init))\n")
-        f.write("model.add(MaxPooling2D(pool_size=(2, 2), dim_ordering = 'th'))\n")
-=======
     f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))\n")
     for i in range(0, int(conv_layer-1)):
         f.write("model.add(Conv2D(64, (2, 2), activation=actF, padding='same', kernel_initializer = kernel_init))\n")
         f.write("model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))\n")
->>>>>>> 87aecfe746ad07a7b7d27fec6a2fb40bb52f8206
     f.write("model.add(Dropout(0.25))\n")
     f.write("model.add(Flatten())\n")
     for i in range(0, fcn_layer-1):

@@ -4,6 +4,7 @@ import operator
 import copy
 import optimize_structure as fm
 import subprocess
+import time
 # import pandas as pd
 
 
@@ -53,12 +54,12 @@ def mutate(selected_chromosome, mutateSize):
 
 def mutateGene(gene):
     mutated_gene = copy.deepcopy(gene)
-    rand = random.randint(3, 4)
+    rand = random.randint(4, 5)
     choiceInd = random.sample([0, 1, 2, 3, 4, 5, 6], rand)
     for i in range(0, len(choiceInd)):
         if choiceInd[i] == 0:
             # mutate lr
-            trans = random.randint(-200, 200)/10000.0
+            trans = random.randint(-3000, 3000)/10000.0
             mutated_gene[0] = abs(gene[0] + trans)
 
         elif choiceInd[i] == 1:
@@ -109,11 +110,11 @@ def breed(selected_chromosome, popSize, breedSize):
 # main
 
 
-generation = 20
-popSize = 10
-mutateSize = 3
-selectSize = 3
-breedSize = 4
+generation = 10
+popSize = 20
+mutateSize = 6
+selectSize = 6
+breedSize = 8
 nextGeneration = []
 for i in range(0, popSize):
     lr = random.randint(1, 10000) / 10000
@@ -148,6 +149,7 @@ for i in range(0, generation):
     nextGeneration = copy.deepcopy(breed(nextGeneration, popSize, breedSize))
     getFitness(nextGeneration, popSize, selectSize)
     progress.append(copy.deepcopy(nextGeneration[0][7]))
+
 
 log.write("\n\n[last]\n")
 print("OOOOOO Last Generation OOOOOO")

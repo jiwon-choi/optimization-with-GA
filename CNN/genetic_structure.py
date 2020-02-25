@@ -109,11 +109,7 @@ def breed(selected_chromosome, popSize, breedSize):
 
 
 # Init first generation
-<<<<<<< HEAD
 generation = 20
-=======
-generation = 3
->>>>>>> 87aecfe746ad07a7b7d27fec6a2fb40bb52f8206
 popSize = 10
 mutateSize = 3
 selectSize = 3
@@ -131,7 +127,7 @@ for i in range(0, popSize):
     nextGeneration.append([lr, init_w, opt, actF, kernel_size, conv_layer, fcn_layer, fitness])
 
 now = time.localtime()
-strnow = "log_"+str(now.tm_year)+"-"+str(now.tm_mon)+"-"+str(now.tm_mday)+"_"+str(now.tm_hour)+"-"+str(now.tm_min)+"-"+str(now.tm_sec)
+strnow = "log_"+str(now.tm_year)+"-"+str(now.tm_mon)+"-"+str(now.tm_mday)+"_"+str(now.tm_hour)+"-"+str(now.tm_min)
 log = open(strnow+".txt", 'a')
 log.write("\n\n[first]\n")
 for i in range(popSize):
@@ -147,19 +143,11 @@ for i in range(0, generation):
     else:
         getFitness(nextGeneration, popSize, 0)
     sorted_chromosome = copy.deepcopy(sorted(nextGeneration, key=operator.itemgetter(5), reverse=True))
-<<<<<<< HEAD
-=======
-    progress.append(copy.deepcopy(nextGeneration[0][7]))
-    log.write("\naccuracy = "+str(nextGeneration[0][7])+"\n")
->>>>>>> 87aecfe746ad07a7b7d27fec6a2fb40bb52f8206
     '''
     for i in range(popSize):
         print(i, "=", sorted_chromosome[i])
     '''
-<<<<<<< HEAD
     progress.append(copy.deepcopy(nextGeneration[0][7]))
-=======
->>>>>>> 87aecfe746ad07a7b7d27fec6a2fb40bb52f8206
     selected_chromosome = copy.deepcopy(select(sorted_chromosome, selectSize))
     # print("after select:", selected_chromosome)
     selected = copy.deepcopy(selected_chromosome)
@@ -180,8 +168,9 @@ print("OOOOOO Last Generation OOOOOO")
 for i in range(popSize):
     print(i, "=", nextGeneration[i])
     log.write(str(nextGeneration[i])+"\n")
-log.close()
+log.write("progress =", progress)
 print(" progress =", progress)
+log.close()
 # plt.plot(progress)
 # plt.ylabel('Fitness')
 # plt.xlabel('Generation')
