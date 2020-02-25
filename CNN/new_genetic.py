@@ -107,11 +107,11 @@ def breed(selected_chromosome, popSize, breedSize):
 # main
 
 
-generation = 3
-popSize = 10
-mutateSize = 3
-selectSize = 3
-breedSize = 4
+generation = 20
+popSize = 30
+mutateSize = 9
+selectSize = 9
+breedSize = 12
 nextGeneration = []
 for i in range(0, popSize):
     lr = random.randint(1, 10000) / 10000
@@ -148,7 +148,7 @@ for i in range(0, generation):
     getFitness(nextGeneration, popSize, selectSize)
     progress.append(copy.deepcopy(nextGeneration[0][7]))
     log = open("log200225.txt", 'a')
-    log.write("generation " + str(i)+ " : " + str(nextGeneration[0][7]))
+    log.write("\ngeneration " + str(i)+ " : " + str(nextGeneration[0][7]))
     log.close()
 
 log = open("log200225.txt", 'a')
