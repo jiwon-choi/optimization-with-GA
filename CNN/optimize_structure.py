@@ -7,8 +7,10 @@ def fileMaker(gene):
     optim = gene[2]
     actF = gene[3]
     kernel_size = gene[4]
-    conv_layer = gene[5]
+    conv_layer = gene[5][0]
+    n_conv = gene[5][1]
     fcn_layer = gene[6]
+    dropout = gene[7]
 
     f = open("created_cnn.py", 'w')
 
@@ -31,6 +33,7 @@ def fileMaker(gene):
     f.write("lr = " + str(lr) + "\n")
     f.write("actF = '" + str(actF) + "'\n")
     f.write("ks =" + str(kernel_size) + "\n")
+    f.write("dropout =" + str(dropout) + "\n")
     if optim == 'Adam':
         f.write("opt = keras.optimizers.Adam(learning_rate =lr, beta_1=0.9, beta_2=0.999, amsgrad=False)\n")
     elif optim == 'Adagrad':
@@ -65,13 +68,14 @@ def fileMaker(gene):
     f.write("model.add(Conv2D(32,kernel_size=(ks, ks), kernel_initializer = kernel_init, padding='same', activation = actF,input_shape=input_shape))\n")
     f.write("model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))\n")
     for i in range(0, int(conv_layer-1)):
-        f.write("model.add(Conv2D(64, (2, 2), activation=actF, padding='same', kernel_initializer = kernel_init))\n")
+        for j in range(0, int(n_conv-1)):
+            f.write("model.add(Conv2D(64, (2, 2), activation=actF, padding='same', kernel_initializer = kernel_init))\n")
         f.write("model.add(MaxPooling2D(pool_size=(2, 2), padding='same'))\n")
-    f.write("model.add(Dropout(0.25))\n")
+    f.write("model.add(Dropout(dropout))\n")
     f.write("model.add(Flatten())\n")
     for i in range(0, fcn_layer-1):
         f.write("model.add(Dense(1000, activation=actF))\n")
-        f.write("Dropout(0.5)\n")
+        f.write("Dropout(dropout)\n")
     f.write("model.add(Dense(num_classes, activation='softmax'))\n")
     f.write("model.summary()\n\n")
 
