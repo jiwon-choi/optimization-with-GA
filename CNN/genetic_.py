@@ -4,19 +4,18 @@ import copy
 import optimize_structure as fm
 import subprocess
 import datetime
-# import pandas as pd
 
 
 """
-    lr = gene[0]
-    initW = gene[1]
-    optim = gene[2]
-    actF = gene[3]
-    kernel_size = gene[4]
-    conv_layer = gene[5]
-    fcn_layer = gene[6]
-    dropout = gene[7]
-    fitness = gene[8]
+    fitness = gene[0]
+    lr = gene[1]
+    initW = gene[2]
+    optim = gene[3]
+    actF = gene[4]
+    kernel_size = gene[5]
+    conv_layer = gene[6]
+    fcn_layer = gene[7]
+    dropout = gene[8]
     n_conv= gene[9]
 
 """
@@ -36,7 +35,7 @@ def cnn(gene):
 def getFitness(gene, popSize, selectSize):
     for i in range(selectSize, popSize):
         fitness = copy.deepcopy(cnn(gene[i]))
-        gene[i][8] = copy.deepcopy(fitness)
+        gene[i][0] = copy.deepcopy(fitness)
 
     return gene
 
@@ -49,70 +48,59 @@ def select(sorted_chromosome, selectSize):
     return selected_chromosome
 
 
-def mutate(selected_chromosome, mutateSize):
-    before_chromosome = copy.deepcopy(selected_chromosome)
-    mutated_chromosome = []
-    for i in range(0, mutateSize):
-        mutated_chromosome.append(mutateGene(before_chromosome[i]))
-
-    return mutated_chromosome
-
-
 def mutateGene(gene):
     mutated_gene = copy.deepcopy(gene)
     rand = random.randint(4, 5)
-    choiceInd = random.sample([0, 1, 2, 3, 4, 5, 6, 7], rand)
+    choiceInd = random.sample([1, 2, 3, 4, 5, 6, 7, 8], rand)
     for i in range(0, len(choiceInd)):
-        if choiceInd[i] == 0:
+        if choiceInd[i] == 1:
             # mutate lr
             trans = random.randint(-3000, 3000)/10000.0
             mutated_gene[0] = abs(gene[0] + trans)
-        elif choiceInd[i] == 1:
+        elif choiceInd[i] == 2:
             # mutate init weight
             mutated_gene[1] = random.choice(["zeros", "he_uniform", "random_uniform"])
-        elif choiceInd[i] == 2:
+        elif choiceInd[i] == 3:
             # mutate optimizer
             mutated_gene[2] = random.choice(["SGD", "Adagrad", "Adam", "Adadelta"])
-        elif choiceInd[i] == 3:
+        elif choiceInd[i] == 4:
             # mutate actFunc
             mutated_gene[3] = random.choice(["sigmoid", "relu", "tanh"])
-        elif choiceInd[i] == 4:
+        elif choiceInd[i] == 5:
             # mutate layer
             mutated_gene[4] = abs(mutated_gene[4] + random.choice([-2, 2]))
-        elif choiceInd[i] == 5:
+        elif choiceInd[i] == 6:
             # mutate conv_layer
             mutated_gene[5][0] = abs(mutated_gene[5][0] + random.choice([-1, 1]))  # conv_layer
             mutated_gene[5][1] = abs(mutated_gene[5][1] + random.choice([-1, 1]))  # n*conv in conv_layer
-        elif choiceInd[i] == 6:
+        elif choiceInd[i] == 7:
             # mutate fcnn_layer
             mutated_gene[6] = abs(mutated_gene[6] + random.choice([-1, 1]))
-        elif choiceInd[i] == 7:
+        elif choiceInd[i] == 8:
             d_rate = 0
             d_rate = random.uniform(0, 0.5)
             mutated_gene[7] = round(d_rate, 2)
 
     return mutated_gene
 
-
 def breed(selected_chromosome, popSize, breedSize):
     nextGeneration = selected_chromosome
     for i in range(0, breedSize):
         son = []
         randInd = random.sample(range(0, popSize-breedSize), 2)
-        mom = selected_chromosome[randInd[0]]
-        dad = selected_chromosome[randInd[1]]
-        sep = random.randint(2, 7)
-        for i in range(0, len(mom)):
-            if i < sep:
-                son.append(mom[i])
+        mom = copy.deepcopy(selected_chromosome[randInd[0]])
+        dad = copy.deepcopy(selected_chromosome[randInd[1]])
+        sep = random.randInt(2, 7)
+        for j in range(0, len(mom)):
+            if j < sep:
+                son.append(mom[j])
             else:
-                son.append(dad[i])
+                son.append(dad[j])
+            son[0] = 0
         nextGeneration.append(son)
-    son[8] = 0
-    
+
     return nextGeneration
 
-# main
 generation = 5
 popSize = 10
 mutateSize = 3
@@ -121,8 +109,9 @@ breedSize = 4
 nextGeneration = []
 
 for i in range(0, popSize):
+    fitness = 0
     lr = random.randint(1, 10000) / 10000
-    init_w = random.choice(["zeros", "he_uniform", "random_uniform"])
+    init_W = random.choice(["zeros", "he_uniform", "random_uniform"])
     opt = random.choice(["SGD", "Adagrad", "Adam", "Adadelta"])
     actF = random.choice(["sigmoid", "relu", "tanh"])
     kernel_size = random.choice([1, 3, 5])
@@ -130,14 +119,13 @@ for i in range(0, popSize):
     n_conv = random.randrange(1, 4)
     fcn_layer = random.choice([1, 2, 3])
     dropout = random.uniform(0, 0.5)
-    fitness = 0
-    nextGeneration.append([lr, init_w, opt, actF, kernel_size, [conv_layer, n_conv], fcn_layer, dropout, fitness])
+    nextGeneration.append([fitness, lr, init_w, opt, actF, kernel_size, [conv_layer, n_conv], fcn_layer, dropout])
 
 now = datetime.datetime.now()
 log = open("log.txt", 'a')
 log.write("\n\n[first]\n")
 for i in range(popSize):
-    print("first =", nextGeneration[i])
+    print("first = ", nextGeneration[i])
     log.write(str(nextGeneration[i])+"\n")
 log.close()
 
@@ -146,16 +134,16 @@ for i in range(0, generation):
     if i == 0:
         getFitness(nextGeneration, popSize, 0)
 
-    sorted_chromosome = copy.deepcopy(sorted(nextGeneration, key=operator.itemgetter(8), reverse=True))
-    selected_chromosome = copy.deepcopy(select(sorted_chromosome, selectSize))
+    sorted_chromosome = copy.deepcopy(sorted(nextGeneration, key=operator.itemgetter(0), reverse=True))
+    selected_chromosome = select(copy.deepcopy(sorted_chromosome), copy.deepcopy(selectSize))
     selected = copy.deepcopy(selected_chromosome)
-    mutated_chromosome = copy.deepcopy(mutate(selected_chromosome, mutateSize))
+    mutated_chromosome = mutate(copy.deepcopy(selected_chromosome), copy.deepcopy(mutateSize))
     nextGeneration = copy.deepcopy(selected) + copy.deepcopy(mutated_chromosome)
-    nextGeneration = copy.deepcopy(breed(nextGeneration, popSize, breedSize))
+    nextGeneration = breed(copy.deepcopy(nextGeneration), copy.deepcopy(popSize), copy.deepcopy(breedSize))
     getFitness(nextGeneration, popSize, selectSize)
-    progress.append(copy.deepcopy(nextGeneration[0][8]))
+    progress.append(copy.deepcopy(nextGeneration[0][0]))
     log = open("log.txt", 'a')
-    log.write("\ngeneration " + str(i) + " : " + str(nextGeneration[0][8]))
+    log.write("\ngeneration " + str(i) + " : " + str(nextGeneration[0][0]))
     log.close()
 
 log = open("log.txt", 'a')
