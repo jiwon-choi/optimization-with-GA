@@ -1,10 +1,9 @@
-import numpy as np
 import random
 import operator
 import copy
 import optimize_structure as fm
 import subprocess
-import time
+import datetime
 # import pandas as pd
 
 
@@ -110,18 +109,17 @@ def breed(selected_chromosome, popSize, breedSize):
                 son.append(dad[i])
         nextGeneration.append(son)
     son[8] = 0
-    # print("son=",son)
+    
     return nextGeneration
 
 # main
-
-
 generation = 5
 popSize = 10
 mutateSize = 3
 selectSize = 3
 breedSize = 4
 nextGeneration = []
+
 for i in range(0, popSize):
     lr = random.randint(1, 10000) / 10000
     init_w = random.choice(["zeros", "he_uniform", "random_uniform"])
@@ -135,9 +133,7 @@ for i in range(0, popSize):
     fitness = 0
     nextGeneration.append([lr, init_w, opt, actF, kernel_size, [conv_layer, n_conv], fcn_layer, dropout, fitness])
 
-
-now = time.localtime()
-# strnow = "log_"+str(now.tm_year)+"-"+str(now.tm_mon)+"-"+str(now.tm_mday)+"_"+str(now.tm_hour)+"-"+str(now.tm_min)
+now = datetime.datetime.now()
 log = open("log.txt", 'a')
 log.write("\n\n[first]\n")
 for i in range(popSize):
