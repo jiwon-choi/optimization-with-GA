@@ -26,6 +26,7 @@ y_test = keras.utils.to_categorical(y_test, num_classes)
 ###
 
 inputs = keras.Input(shape=input_shape, name='input' )
+
 # 1
 identity = layers.Conv2D(filters=64, kernel_size=[3,3], padding='same', activation='relu')(inputs)
 output = layers.Conv2D(filters=64, kernel_size=[3, 3], padding='same')(identity)
@@ -33,6 +34,7 @@ output = layers.BatchNormalization()(output)
 dropout = layers.Dropout(rate=0.25)(output)
 output = layers.Activation('relu')(dropout)
 output = layers.Add()([output, identity])
+
 # 2
 identity = layers.Conv2D(filters=64, kernel_size=[3,3], padding='same', activation='relu')(output)
 output = layers.Conv2D(filters=64, kernel_size=[3, 3], padding='same')(identity)
@@ -41,6 +43,7 @@ output = layers.MaxPooling2D(pool_size=[3, 3], padding='same', strides=1)(output
 dropout = layers.Dropout(rate=0.25)(output)
 output = layers.Activation('relu')(dropout)
 output = layers.Add()([output, identity])
+
 # 3
 identity = layers.Conv2D(filters=64, kernel_size=[3, 3], padding='same')(output)
 output = layers.BatchNormalization()(identity)
